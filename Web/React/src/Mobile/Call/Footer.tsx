@@ -4,7 +4,14 @@ import { AICallAgentType, AICallState } from 'aliyun-auikit-aicall';
 
 import ControllerContext from '@/Mobile/Call/ControlerContext';
 import useCallStore from '@/Mobile/Call/store';
-import { CallPhoneSVG, CameraClosedSVG, CameraSVG, CameraSwitchSVG, MicrophoneClosedSVG, MicrophoneSVG } from './Icons';
+import {
+  CallPhoneSVG,
+  CameraClosedSVG,
+  CameraSVG,
+  CameraSwitchSVG,
+  MicrophoneClosedSVG,
+  MicrophoneSVG,
+} from './Icons';
 
 import './footer.less';
 import { getRootElement, isMobile } from '@/common/utils';
@@ -26,7 +33,9 @@ function Footer({ onStop, onCall }: CallFooterProps) {
   const pushingTimerRef = useRef(0);
   const isTouchSupported = 'ontouchstart' in window;
 
-  const toggleMicrophoneMuted = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const toggleMicrophoneMuted = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.stopPropagation();
     if (enablePushToTalk) return;
     const to = !useCallStore.getState().microphoneMuted;
@@ -37,7 +46,9 @@ function Footer({ onStop, onCall }: CallFooterProps) {
     });
   };
 
-  const toggleCameraMuted = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const toggleCameraMuted = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.stopPropagation();
     const to = !useCallStore.getState().cameraMuted;
     controller?.muteCamera(to);
@@ -53,7 +64,11 @@ function Footer({ onStop, onCall }: CallFooterProps) {
 
   const stopPushToTalk = useMemo(
     () => () => {
-      if (!pushingStartTimeRef.current || !useCallStore.getState().enablePushToTalk) return;
+      if (
+        !pushingStartTimeRef.current ||
+        !useCallStore.getState().enablePushToTalk
+      )
+        return;
       if (pushingTimerRef.current) {
         clearTimeout(pushingTimerRef.current);
       }
@@ -72,7 +87,7 @@ function Footer({ onStop, onCall }: CallFooterProps) {
       });
       pushingStartTimeRef.current = 0;
     },
-    [controller]
+    [controller],
   );
 
   const startPushToTalk = useMemo(
@@ -87,12 +102,15 @@ function Footer({ onStop, onCall }: CallFooterProps) {
         stopPushToTalk();
       }, 60 * 1000);
     },
-    [controller, stopPushToTalk]
+    [controller, stopPushToTalk],
   );
 
   const onCallClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
-    if (callState === AICallState.Connected || callState === AICallState.Connecting) {
+    if (
+      callState === AICallState.Connected ||
+      callState === AICallState.Connecting
+    ) {
       onStop();
     } else {
       onCall();
@@ -105,12 +123,18 @@ function Footer({ onStop, onCall }: CallFooterProps) {
     <li
       key='call'
       className={`_call ${
-        callState === AICallState.Connected || callState === AICallState.Connecting ? 'is-connected' : ''
+        callState === AICallState.Connected ||
+        callState === AICallState.Connecting
+          ? 'is-connected'
+          : ''
       }`}
     >
       <Button onClick={onCallClick}>{CallPhoneSVG}</Button>
       <div className='_label'>
-        {callState === AICallState.Connected || callState === AICallState.Connecting ? '挂断' : '拨打'}
+        {callState === AICallState.Connected ||
+        callState === AICallState.Connecting
+          ? '挂断'
+          : '拨打'}
       </div>
     </li>
   );
@@ -136,9 +160,13 @@ function Footer({ onStop, onCall }: CallFooterProps) {
         </Button>
 
         {enablePushToTalk ? (
-          <div className='_label'>{pushingToTalk ? '松开发送' : '按住讲话'}</div>
+          <div className='_label'>
+            {pushingToTalk ? '松开发送' : '按住讲话'}
+          </div>
         ) : (
-          <div className='_label'>{microphoneMuted ? '麦克风已关' : '关麦克风'}</div>
+          <div className='_label'>
+            {microphoneMuted ? '麦克风已关' : '关麦克风'}
+          </div>
         )}
       </li>
     );
@@ -152,8 +180,12 @@ function Footer({ onStop, onCall }: CallFooterProps) {
               <div className='_label'>镜头翻转</div>
             </div>
           )}
-          <Button onClick={toggleCameraMuted}>{cameraMuted ? CameraClosedSVG : CameraSVG}</Button>
-          <div className='_label'>{cameraMuted ? '摄像头已关' : '关摄像头'}</div>
+          <Button onClick={toggleCameraMuted}>
+            {cameraMuted ? CameraClosedSVG : CameraSVG}
+          </Button>
+          <div className='_label'>
+            {cameraMuted ? '摄像头已关' : '关摄像头'}
+          </div>
         </li>
       );
       btns.push(cameraBtn);

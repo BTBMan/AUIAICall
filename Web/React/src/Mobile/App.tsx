@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import Welcome from './Welcome';
-import { AICallAgentType, AICallTemplateConfig, AIChatAgentType } from 'aliyun-auikit-aicall';
+import {
+  AICallAgentType,
+  AICallTemplateConfig,
+  AIChatAgentType,
+} from 'aliyun-auikit-aicall';
 
 import './App.css';
 import { Toast } from 'antd-mobile';
@@ -46,7 +50,9 @@ function App(props: AppProps) {
     userData,
     templateConfig,
   } = props;
-  const [stateAgentType, setStateAgentType] = useState<AICallAgentType | AIChatAgentType | undefined>(agentType);
+  const [stateAgentType, setStateAgentType] = useState<
+    AICallAgentType | AIChatAgentType | undefined
+  >(agentType);
 
   useEffect(() => {
     const preventContextMenu = function (e: Event) {
@@ -68,6 +74,10 @@ function App(props: AppProps) {
       />
     );
 
+  console.log('-----------------------------');
+  console.log(userId, userToken);
+  console.log('-----------------------------');
+
   return (
     <>
       {stateAgentType === AIChatAgentType.MessageChat ? (
@@ -77,7 +87,9 @@ function App(props: AppProps) {
           agentId={agentId || runConfig.chatAgentId}
           appServer={appServer}
           templateConfig={
-            templateConfig instanceof AIChatTemplateConfig ? templateConfig : runConfig.chatTemplateConfig
+            templateConfig instanceof AIChatTemplateConfig
+              ? templateConfig
+              : runConfig.chatTemplateConfig
           }
           userData={(userData as JSONObject) || runConfig.chatUserData}
           onExit={() => {
@@ -93,9 +105,15 @@ function App(props: AppProps) {
           agentId={agentId || getCallAgentId(runConfig, stateAgentType)}
           appServer={appServer}
           region={region}
-          userData={typeof userData === 'object' ? JSON.stringify(userData) : userData || runConfig.callUserData}
+          userData={
+            typeof userData === 'object'
+              ? JSON.stringify(userData)
+              : userData || runConfig.callUserData
+          }
           templateConfig={
-            templateConfig instanceof AICallTemplateConfig ? templateConfig : runConfig.callTemplateConfig
+            templateConfig instanceof AICallTemplateConfig
+              ? templateConfig
+              : runConfig.callTemplateConfig
           }
           onExit={() => {
             setStateAgentType(undefined);

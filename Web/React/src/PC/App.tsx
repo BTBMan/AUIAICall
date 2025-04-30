@@ -15,7 +15,10 @@ function App() {
   const agentType = useCallStore((state) => state.agentType);
 
   const getController = () => {
-    const controller = new AUIAICallStandardController('YourUserId', 'YourToken');
+    const controller = new AUIAICallStandardController(
+      '210457171',
+      'eyJSZXF1ZXN0SWQiOiIzRDFEOThCMy1ERjRELTUyMTQtOEQzRC00MzE4NTREQkU1RTYiLCJXb3JrZmxvd1R5cGUiOiJWb2ljZUNoYXQiLCJUZW1wb3JhcnlBSUFnZW50SWQiOiI5NGU0MjIyZDI3YmQ0M2Y0OWE3ZDQ5YzhlNjUyMWJmNCIsIkV4cGlyZVRpbWUiOiIyMDI1LTA1LTAyIDAzOjU5OjUwIiwiTmFtZSI6Ijk0ZTQyMjJkMjdiZDQzZjQ5YTdkNDljOGU2NTIxYmY0IiwiUmVnaW9uIjoiY24tc2hhbmdoYWkifQ==',
+    );
     const rc = getRuntimeConfig(runConfig);
     if (rc.callTemplateConfig) {
       controller.config.templateConfig = rc.callTemplateConfig;
@@ -41,7 +44,13 @@ function App() {
   };
 
   if (agentType === undefined || agentType === null) {
-    return <CallWelcome onAgentTypeSelected={(type) => useCallStore.setState({ agentType: type })} />;
+    return (
+      <CallWelcome
+        onAgentTypeSelected={(type) =>
+          useCallStore.setState({ agentType: type })
+        }
+      />
+    );
   }
 
   return (

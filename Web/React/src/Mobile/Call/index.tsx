@@ -1,5 +1,9 @@
 import { useEffect, useMemo } from 'react';
-import { AICallAgentType, AICallChatSyncConfig, AICallTemplateConfig } from 'aliyun-auikit-aicall';
+import {
+  AICallAgentType,
+  AICallChatSyncConfig,
+  AICallTemplateConfig,
+} from 'aliyun-auikit-aicall';
 import AUIAICallStandardController from '@/controller/call/AUIAICallStandardController';
 
 import './index.less';
@@ -74,7 +78,7 @@ function Call({
       if (_controller.shareConfig.templateConfig) {
         _controller.config.templateConfig = AICallTemplateConfig.fromJsonString(
           _controller.shareConfig?.agentType || AICallAgentType.VoiceAgent,
-          _controller.shareConfig?.templateConfig
+          _controller.shareConfig?.templateConfig,
         );
       }
       _controller.config.fromShare = true;
@@ -142,7 +146,6 @@ function Call({
         onExit={() => {
           onExit?.();
         }}
-        
       />
       {children}
     </ControllerContext.Provider>

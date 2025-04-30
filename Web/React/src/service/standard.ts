@@ -1,4 +1,9 @@
-import { AICallAgentError, AICallAgentInfo, AICallErrorCode, AIChatAuthToken } from 'aliyun-auikit-aicall';
+import {
+  AICallAgentError,
+  AICallAgentInfo,
+  AICallErrorCode,
+  AIChatAuthToken,
+} from 'aliyun-auikit-aicall';
 import AUIAICallConfig from '../controller/call/AUIAICallConfig';
 
 import { getWorkflowType, TemplateConfig, WorkflowType } from './interface';
@@ -18,7 +23,11 @@ class StandardAppService {
    * @returns {Promise<AICallAgentInfo>} 智能体实例信息
    * @note 调用之前需要先设置用户 id 和 token
    */
-  generateAIAgent = async (userId: string, token: string, config: AUIAICallConfig): Promise<AICallAgentInfo> => {
+  generateAIAgent = async (
+    userId: string,
+    token: string,
+    config: AUIAICallConfig,
+  ): Promise<AICallAgentInfo> => {
     if (!userId) {
       throw new AICallAgentError('userId is empty');
     }
@@ -57,13 +66,19 @@ class StandardAppService {
       param.chat_sync_config = config.chatSyncConfig.getConfigString();
     }
 
-    return fetch(`${this.appServer}/api/v2/aiagent/generateAIAgentCall`, {
+    return fetch(`${this.appServer}/api/v1/aiagent/generateAIAgentCall`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token || '',
       },
-      body: JSON.stringify(param),
+      body: JSON.stringify({
+        user_id: '210457171',
+        expire: 86400,
+        ai_agent_id: '94e4222d27bd43f49a7d49c8e6521bf4',
+        template_config: '{}',
+        region: 'cn-shanghai',
+      }),
     })
       .then(async (res) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -74,9 +89,15 @@ class StandardAppService {
           console.error(e);
         }
         if (data.error_code === 'Forbidden.SubscriptionRequired') {
-          throw new AICallAgentError('Forbidden.SubscriptionRequired', AICallErrorCode.AgentSubscriptionRequired);
+          throw new AICallAgentError(
+            'Forbidden.SubscriptionRequired',
+            AICallErrorCode.AgentSubscriptionRequired,
+          );
         } else if (data.error_code === 'AgentNotFound') {
-          throw new AICallAgentError('AgentNotFound', AICallErrorCode.AgentNotFound);
+          throw new AICallAgentError(
+            'AgentNotFound',
+            AICallErrorCode.AgentNotFound,
+          );
         }
 
         if (res.status === 403) {
@@ -104,7 +125,11 @@ class StandardAppService {
       });
   };
 
-  describeAIAgent = async (userId: string, token: string, instanceId: string): Promise<TemplateConfig> => {
+  describeAIAgent = async (
+    userId: string,
+    token: string,
+    instanceId: string,
+  ): Promise<TemplateConfig> => {
     if (!userId || !instanceId) {
       throw new AICallAgentError('userId or instanceId is empty');
     }
@@ -131,7 +156,9 @@ class StandardAppService {
           error.name = 'ServiceAuthError';
           throw error;
         } else if (res.status !== 200) {
-          throw new AICallAgentError(`describeAIAgentInstance error, response status: ${res.status}`);
+          throw new AICallAgentError(
+            `describeAIAgentInstance error, response status: ${res.status}`,
+          );
         }
         return res.json();
       })
@@ -139,7 +166,9 @@ class StandardAppService {
         if (data.code === 200) {
           return JSON.parse(data.template_config);
         }
-        throw new AICallAgentError(`describeAIAgentInstance error, message: ${data.message || 'request error'}`);
+        throw new AICallAgentError(
+          `describeAIAgentInstance error, message: ${data.message || 'request error'}`,
+        );
       });
   };
 
@@ -147,7 +176,7 @@ class StandardAppService {
     userId: string,
     token: string,
     agentId?: string,
-    region?: string
+    region?: string,
   ): Promise<AIChatAuthToken> => {
     if (!userId) {
       throw new AICallAgentError('userId or instanceId is empty');
@@ -166,13 +195,19 @@ class StandardAppService {
       param.region = region;
     }
 
-    return fetch(`${this.appServer}/api/v2/aiagent/generateMessageChatToken`, {
+    return fetch(`${this.appServer}/api/v1/aiagent/generateMessageChatToken`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token || '',
       },
-      body: JSON.stringify(param),
+      body: JSON.stringify({
+        user_id: '210457171',
+        expire: 86400,
+        ai_agent_id: '94e4222d27bd43f49a7d49c8e6521bf4',
+        template_config: '{}',
+        region: 'cn-shanghai',
+      }),
     })
       .then((res) => {
         if (res.status === 403) {
@@ -180,7 +215,9 @@ class StandardAppService {
           error.name = 'ServiceAuthError';
           throw error;
         } else if (res.status !== 200) {
-          throw new AICallAgentError(`generateMessageChatToken error, response status: ${res.status}`);
+          throw new AICallAgentError(
+            `generateMessageChatToken error, response status: ${res.status}`,
+          );
         }
         return res.json();
       })
@@ -188,7 +225,9 @@ class StandardAppService {
         if (data.code === 200) {
           return AIChatAuthToken.fromData(data);
         }
-        throw new AICallAgentError(`generateMessageChatToken error, message: ${data.message || 'request error'}`);
+        throw new AICallAgentError(
+          `generateMessageChatToken error, message: ${data.message || 'request error'}`,
+        );
       });
   };
 }

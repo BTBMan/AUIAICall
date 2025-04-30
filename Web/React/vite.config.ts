@@ -5,13 +5,23 @@ import legacy from '@vitejs/plugin-legacy';
 import path from 'path';
 
 import packageJSON from './package.json';
+// import runConfig from './src/runConfig';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   define: {
     __VERSION__: JSON.stringify(packageJSON.version),
   },
-
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       // target: 'https://ice-smart-aiagent-fcapp-appserver.aliyuncs.com',
+  //       target: 'https://ice-smart-aiagent-fcapp.aliyun-inc.com',
+  //       // rewrite: (path) => path.replace(/^\/api/, ''),
+  //       secure: false,
+  //     },
+  //   },
+  // },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'), // 将 '@' 映射到 './src' 目录
@@ -22,6 +32,7 @@ export default defineConfig({
       input: {
         index: path.resolve(__dirname, 'index.html'),
         mobile: path.resolve(__dirname, 'mobile.html'),
+        cdn: path.resolve(__dirname, 'cdn.html'),
       },
     },
   },
