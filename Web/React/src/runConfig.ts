@@ -12,8 +12,10 @@ const runConfig: AICallRunConfig = {
   // callTemplateConfig: callTemplateConfig,
   // appServer: '',
   // chatAgentId: '94e4222d27bd43f49a7d49c8e6521bf4',
-  appServer: 'https://ice-smart-aiagent-fcapp-appserver.aliyuncs.com',
-  chatAgentId: '94e4222d27bd43f49a7d49c8e6521bf4',
+  // appServer: 'https://ice-smart-aiagent-fcapp.aliyun-inc.com',
+  // appServer: 'https://ice-vpc.cn-shanghai.aliyuncs.com',
+  appServer: 'http://localhost:9000',
+  chatAgentId: '87e2c48440c54a07a84b445a184a7b0e',
 };
 
 export default runConfig;

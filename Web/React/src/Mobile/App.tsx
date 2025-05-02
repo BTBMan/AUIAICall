@@ -39,7 +39,7 @@ interface AppProps {
 function App(props: AppProps) {
   const runConfig = getRuntimeConfig(runUserConfig);
   const {
-    userId = 'YourUserId',
+    userId = '210457171',
     userToken = 'YourToken',
     shareToken,
     appServer = runConfig.appServer,

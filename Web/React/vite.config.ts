@@ -12,16 +12,17 @@ export default defineConfig({
   define: {
     __VERSION__: JSON.stringify(packageJSON.version),
   },
-  // server: {
-  //   proxy: {
-  //     '/api': {
-  //       // target: 'https://ice-smart-aiagent-fcapp-appserver.aliyuncs.com',
-  //       target: 'https://ice-smart-aiagent-fcapp.aliyun-inc.com',
-  //       // rewrite: (path) => path.replace(/^\/api/, ''),
-  //       secure: false,
-  //     },
-  //   },
-  // },
+  server: {
+    host: true,
+    proxy: {
+      '/api': {
+        target: 'https://ice-smart-aiagent-fcapp-appserver.aliyuncs.com',
+        // target: 'https://ice-smart-aiagent-fcapp.aliyun-inc.com',
+        // rewrite: (path) => path.replace(/^\/api/, ''),
+        secure: false,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'), // 将 '@' 映射到 './src' 目录
